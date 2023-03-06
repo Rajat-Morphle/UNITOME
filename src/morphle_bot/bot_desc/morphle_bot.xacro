@@ -1,0 +1,387 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="morphle_bot">
+
+
+
+  <link name="world"></link>
+
+
+  
+  <joint name="fix_joint" type="fixed">  <!-- to fix the model (base link in this case) with respect to the world/ground -->
+      <origin 
+        xyz="0 0 0"
+        rpy="0 0 0"/>
+      <parent link="world"/>
+      <child link="base_link"/>
+  </joint>
+
+
+
+  <link name="base_link">
+    <inertial>
+      <origin
+        xyz="0.0 0.0 0.0"
+        rpy="0 0 0" />
+      <mass
+        value="10.0" />
+      <inertia
+        ixx="0.0"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.0"
+        iyz="0.0"
+        izz="0.0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find morphle_bot)/meshes/base_link.dae"/>
+      </geometry>
+    </visual>
+    
+    <collision>
+      <origin
+        xyz="0 0 0.0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0 0 0" />
+      </geometry>
+    </collision>
+  </link>
+  
+
+  
+  <link name="axisx">
+    <inertial>
+      <origin
+        xyz="0.080886 -0.041128 0.022589"
+        rpy="0 0 0" />
+
+      <mass
+        value="1.0" />
+
+      <inertia
+        ixx="0.0"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.0"
+        iyz="0.0"
+        izz="0.0" />
+    </inertial>
+    
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find morphle_bot)/meshes/axisx.dae"/>
+      </geometry>
+    </visual>
+    
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.0 0.0 0.0" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  
+  <joint name="jointx" type="prismatic">
+    <origin
+      xyz="0.41367 0.13552 0.30273"
+      rpy="-1.5708 0 -1.5708" />
+
+    <parent
+      link="base_link" />
+
+    <child
+      link="axisx" />
+
+    <axis
+      xyz="0 0 -1" />
+
+    <limit
+      lower="0"
+      upper="0.5"
+      velocity="0.2"
+      effort="5000" />
+
+    <dynamics damping="1.0" friction="0.5"/>
+
+    <safety_controller
+      soft_upper="1"
+      soft_lower="0"
+      k_velocity="1" />
+  </joint>
+
+
+
+  <link
+    name="axisy">
+    <inertial>
+      <origin
+        xyz="-0.021936 0.0032019 0.0089378"
+        rpy="0 0 0" />
+
+      <mass
+        value="1.0" />
+
+      <inertia
+        ixx="0.0"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.0"
+        iyz="0.0"
+        izz="0.0" />
+    </inertial>
+
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find morphle_bot)/meshes/axisy.dae"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.0 0.0 0.0" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  
+  <joint
+    name="jointy"
+    type="prismatic">
+    <origin
+      xyz="0.033197 -0.063132 0.0075115"
+      rpy="-1.5708 0.0036853 -1.5708" />
+
+    <parent
+      link="axisx" />
+
+    <child
+      link="axisy" />
+
+    <axis
+      xyz="0 0 1" />
+
+    <limit
+      lower="0"
+      upper="0.25"
+      velocity="0.2"
+      effort="5000" />
+
+    <dynamics damping="1.0" friction="0.5"/>
+
+    <safety_controller
+      soft_upper="1"
+      soft_lower="0"
+      k_velocity="1" />
+  </joint>
+
+
+  
+  <link name="axisz">
+    <inertial>
+      <origin
+        xyz="-0.013834 -0.10415 -0.012215"
+        rpy="0 0 0" />
+
+      <mass
+        value="0.46346" />
+
+      <inertia
+        ixx="0.0"
+        ixy="0.0"
+        ixz="0.0"
+        iyy="0.0"
+        iyz="0.0"
+        izz="0.0" />
+    </inertial>
+
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find morphle_bot)/meshes/axisz.dae"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.0 0.0 0.0" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  
+  <joint
+    name="jointz"
+    type="prismatic">
+    <origin
+      xyz="-0.09904 0 0.0043533"
+      rpy="1.5708 -1.5708 0" />
+
+    <parent
+      link="axisy" />
+
+    <child
+      link="axisz" />
+
+    <axis
+      xyz="0 1 0" />
+
+    <limit
+      lower="0"
+      upper="0.2"
+      velocity="0.2"
+      effort="5000" />
+
+    <dynamics damping="1.0" friction="0.5"/>
+
+    <safety_controller
+      soft_upper="1"
+      soft_lower="0"
+      k_velocity="1" />
+  </joint> -->
+
+
+
+  <!-- gazebo material declarations -->
+  <gazebo reference="base_link">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="axisx">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="axisy">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="axisz">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+
+
+  <!-- gazebo plugin descriptions -->
+
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+      <parameters>$(find morphle_bot)/config/controller_configuration.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+  <!-- <gazebo>
+        <plugin name="gazebo_ros_joint_state_publisher"
+            filename="libgazebo_ros_joint_state_publisher.so">
+            <update_rate>20</update_rate>
+            <joint_name>jointx</joint_name>
+            <joint_name>jointy</joint_name>
+            <joint_name>jointz</joint_name>
+        </plugin>
+  </gazebo> -->
+
+  <!-- <gazebo>
+        <plugin name="gazebo_ros_joint_pose_trajectory"
+            filename="libgazebo_ros_joint_pose_trajectory.so">
+            <update_rate>20</update_rate>
+        </plugin>
+  </gazebo> -->
+
+
+
+  <!-- ros2 control plugins -->
+  <ros2_control name="GazeboSystem" type="system">
+    
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    
+    <joint name="jointx">
+      <command_interface name="position">  <!-- starting the command interfaces of the hardware interface -->
+        <param name="min">0.0</param>
+        <param name="max">0.5</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">0.2</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">5000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>  <!-- starting the state interfaces of the hardware interface -->
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    
+    <joint name="jointy">
+      <command_interface name="position">
+        <param name="min">0</param>
+        <param name="max">0.05</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">0.2</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">5000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="jointz">
+      <command_interface name="position">
+        <param name="min">0</param>
+        <param name="max">0.05</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">0.2</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">5000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    
+  </ros2_control>
+
+</robot>

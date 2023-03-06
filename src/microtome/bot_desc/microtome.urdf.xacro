@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="microtome">
+
+
+
+  <link name="world"></link>
+
+  <joint name="world_BaseLink" type="fixed">
+      <origin 
+        xyz="0 0 0.1"
+        rpy="${pi/2} 0 0"/>
+      <parent link="world"/>
+      <child link="BaseLink"/>
+  </joint>
+
+  <link
+    name="BaseLink">
+    <inertial>
+      <origin
+        xyz="-0.0914455979360805 0.0106292183319259 0.0515227341432978"
+        rpy="0 0 0" />
+      <mass
+        value="0.425921740268824" />
+      <inertia
+        ixx="0.000249339725857296"
+        ixy="-2.1715424707838E-07"
+        ixz="6.41836160230563E-07"
+        iyy="0.00276583093270163"
+        iyz="1.74845661136766E-07"
+        izz="0.00254801816562914" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/BaseLink.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/BaseLink.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Xaxis">
+    <inertial>
+      <origin
+        xyz="-0.03594 0.028144 0.036995"
+        rpy="0 0 0" />
+      <mass
+        value="0.24622" />
+      <inertia
+        ixx="0.00044519"
+        ixy="4.9037E-08"
+        ixz="-7.0228E-08"
+        iyy="0.0004805"
+        iyz="-2.2563E-06"
+        izz="0.00010562" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/Xaxis.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/Xaxis.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Xjoint"
+    type="prismatic">
+    <origin
+      xyz="-0.07471 0.039 -0.0305"
+      rpy="0 0 0" />
+    <parent
+      link="BaseLink" />
+    <child
+      link="Xaxis" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-0.104"
+      upper="0.135"
+      effort="1000"
+      velocity="1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="Yaxis">
+    <inertial>
+      <origin
+        xyz="0.023707 0.021497 0.095175"
+        rpy="0 0 0" />
+      <mass
+        value="0.13623" />
+      <inertia
+        ixx="0.00013525"
+        ixy="-3.5875E-07"
+        ixz="-2.688E-05"
+        iyy="0.00060558"
+        iyz="2.0328E-07"
+        izz="0.00047589" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/Yaxis.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/Yaxis.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Yjoint"
+    type="prismatic">
+    <origin
+      xyz="-0.02 0.0017 0.056541"
+      rpy="0 0 0" />
+    <parent
+      link="Xaxis" />
+    <child
+      link="Yaxis" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.046"
+      upper="0.07"
+      effort="1000"
+      velocity="0.001" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+
+  
+
+
+
+  <!-- gazebo material declarations -->
+  <gazebo reference="BaseLink">
+    <material>Gazebo/Orange</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="Xaxis">
+    <material>Gazebo/White</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="Yaxis">
+    <material>Gazebo/Grey</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+
+
+  <!-- gazebo plugin descriptions -->
+
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+      <parameters>$(find microtome)/config/controller_configuration.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+
+  <!-- ros2 control plugins -->
+  <ros2_control name="GazeboSystem" type="system">
+    
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    
+    <joint name="Xjoint">
+      <command_interface name="position">
+        <param name="min">0.0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    
+    <joint name="Yjoint">
+      <command_interface name="position">
+        <param name="min">0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    
+  </ros2_control>
+
+</robot>

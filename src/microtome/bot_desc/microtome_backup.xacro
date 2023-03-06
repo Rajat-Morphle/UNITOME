@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="microtome">
+
+
+
+  <link name="world"></link>
+
+  <joint name="world_BaseLink" type="fixed">
+      <origin 
+        xyz="0 0 0"
+        rpy="1.5708 0 0"/>
+      <parent link="world"/>
+      <child link="BaseLink"/>
+  </joint>
+
+  <link name="BaseLink">
+    <inertial>
+      <origin
+        xyz="-0.23232 0.062581 -0.11685"
+        rpy="0 0 0" />
+      <mass
+        value="100" />
+      <inertia
+        ixx="0.053843"
+        ixy="0.00010373"
+        ixz="0.0014982"
+        iyy="0.178"
+        iyz="3.9384E-06"
+        izz="0.1435" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/BaseLink.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.96078 0.96078 0.96471 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/BaseLink.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="BaseLink_CuttingBlock" type="prismatic">
+    <origin
+      xyz="-0.1995 0.32 -0.066"
+      rpy="0 0 0" />
+    <parent
+      link="BaseLink" />
+    <child
+      link="CuttingBlock" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="0"
+      upper="0.08"
+      effort="10000"
+      velocity="0.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+
+  <link name="CuttingBlock">
+    <inertial>
+      <origin
+        xyz="-0.14258 -0.06975 -0.038582"
+        rpy="0 0 0" />
+      <mass
+        value="1.2897" />
+      <inertia
+        ixx="0.0020214"
+        ixy="3.4096E-05"
+        ixz="0.00010663"
+        iyy="0.0033638"
+        iyz="-3.0937E-05"
+        izz="0.004835" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/CuttingBlock.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0 0 0" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="CuttingBlock_Facingblock" type="prismatic">
+    <origin
+      xyz="-0.031 -0.0355 -0.05"
+      rpy="0 0 0" />
+    <parent
+      link="CuttingBlock" />
+    <child
+      link="FacingBlock" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="0.035"
+      effort="10000"
+      velocity="0.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+
+  <joint name="CuttingBlock_Shaft" type="continuous">
+    <origin
+      xyz="-0.0685 -0.002 -0.1295"
+      rpy="0 0 0" />
+    <parent
+      link="CuttingBlock" />
+    <child
+      link="Shaft" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1"
+      effort="10000"
+      velocity="0.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+
+  <link name="FacingBlock">
+    <inertial>
+      <origin
+        xyz="-0.02236 -0.035523 -0.020548"
+        rpy="0 0 0" />
+      <mass
+        value="0.88827" />
+      <inertia
+        ixx="0.00065675"
+        ixy="-3.9333E-07"
+        ixz="0.00011003"
+        iyy="0.002485"
+        iyz="4.1189E-07"
+        izz="0.0024619" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/FacingBlock.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.96078 0.96078 0.96471 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0 0 0" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="Shaft">
+    <inertial>
+      <origin
+        xyz="-3.8477E-10 -0.051059 0.0068576"
+        rpy="0 0 0" />
+      <mass
+        value="0.01" />
+      <inertia
+        ixx="3.9118E-05"
+        ixy="-2.608E-13"
+        ixz="-7.1756E-16"
+        iyy="4.5111E-06"
+        iyz="-9.5218E-08"
+        izz="4.2711E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/Shaft.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.96078 0.96078 0.96471 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0 0 0" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="Shaft_Flywheel" type="continuous">
+    <origin
+      xyz="0 -0.1 -0.0105"
+      rpy="0 0 0" />
+    <parent
+      link="Shaft" />
+    <child
+      link="Flywheel" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1"
+      effort="10000"
+      velocity="0.1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+
+  <link name="Flywheel">
+    <inertial>
+      <origin
+        xyz="-1.1814E-06 -0.05209 -0.054754"
+        rpy="0 0 0" />
+      <mass
+        value="0.01" />
+      <inertia
+        ixx="0.00020131"
+        ixy="-5.9176E-12"
+        ixz="-2.23E-09"
+        iyy="0.00019449"
+        iyz="-3.4485E-08"
+        izz="0.00036189" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/Flywheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79608 0.79608 0.79608 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/Flywheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="Flywheel_FlywheelBlock" type="continuous">
+    <origin
+      xyz="0.0475 -0.158 -0.057"
+      rpy="0 0 0" />
+    <parent
+      link="Flywheel" />
+    <child
+      link="FlywheelBlock" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1"
+      effort="10000"
+      velocity="1" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+
+  <link name="FlywheelBlock">
+    <inertial>
+      <origin
+        xyz="-0.0475 0.049698 0.023857"
+        rpy="0 0 0" />
+      <mass
+        value="100.0" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/FlywheelBlock.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.96078 0.96078 0.96471 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find microtome)/meshes/FlywheelBlock.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- <joint name="world_FlywheelBlock" type="fixed">
+      <origin 
+        xyz="-0.0475 -0.158 -0.057"
+        rpy="${pi/2} 0 0"/>
+      <parent link="world"/>
+      <child link="FlywheelBlock"/>
+  </joint> -->
+
+
+
+  <!-- gazebo material declarations -->
+  <gazebo reference="BaseLink">
+    <material>Gazebo/White</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="CuttingBlock">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="FacingBlock">
+    <material>Gazebo/Red</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="Shaft">
+    <material>Gazebo/Purple</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="Flywheel">
+    <material>Gazebo/Grey</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="FlywheelBlock">
+    <material>Gazebo/Orange</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+
+
+
+
+  <!-- gazebo self-collide -->
+  <!-- <gazebo reference="BaseLink">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="CuttingBlock">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="FacingBlock">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="Shaft">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="Flywheel">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="FlywheelBlock">
+    <selfCollide>true</selfCollide>
+  </gazebo> -->
+
+
+
+
+  <!-- gazebo plugin descriptions -->
+
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+      <parameters>$(find microtome)/config/controller_configuration.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+
+  <!-- ros2 control plugins -->
+  <ros2_control name="GazeboSystem" type="system">
+    
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    
+    <joint name="BaseLink_CuttingBlock">
+      <command_interface name="position">
+        <param name="min">0.0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    
+    <joint name="CuttingBlock_Facingblock">
+      <command_interface name="position">
+        <param name="min">0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="CuttingBlock_Shaft">
+      <command_interface name="position">
+        <param name="min">0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="Shaft_Flywheel">
+      <command_interface name="position">
+        <param name="min">0</param>
+        <param name="max">1</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">1</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="Flywheel_FlywheelBlock">
+      <command_interface name="position">
+        <param name="min">0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">1.0</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    
+  </ros2_control>
+
+</robot>

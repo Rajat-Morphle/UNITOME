@@ -1,0 +1,53 @@
+# Controller manager configuration
+controller_manager:
+  ros__parameters:
+    update_rate: 50  # Hz
+
+    ### Controllers available
+    joint_state_broadcaster_name:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    # forward_position_controller_name:
+    #   type: forward_command_controller/ForwardCommandController
+
+    position_trajectory_controller_name:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+### Properties of the controllers that we will use and definition of joints to use ###
+# forward_position_controller_name:
+#   ros__parameters:
+#     joints:
+#       - jointx
+#       - jointy
+#       - jointz
+    
+#     #Un-comment only any one of the three interfaces because if you uncomment multiple interfaces, the last one will be active only.
+#     interface_name: position
+
+position_trajectory_controller_name: #Declared here but not initialised in the launch file yet. only forward position controller is initialised
+  ros__parameters:
+    joints:
+      - jointx
+      - jointy
+      - jointz
+
+    command_interfaces:
+      - position
+      - velocity
+      # - effort
+
+    state_interfaces:
+      - position
+      - velocity
+      # - effort
+
+    state_publish_rate: 50.0 # Defaults to 50
+    action_monitor_rate: 20.0 # Defaults to 20
+
+    allow_partial_joints_goal: true # Defaults to false
+    open_loop_control: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.02 # Defaults to 0.01
+      goal_time: 0.0 # Defaults to 0.0 (start immediately)

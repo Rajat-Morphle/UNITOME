@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+
+  <!-- gazebo material declarations -->
+  <gazebo reference="base_link">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="flywheel">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="shaftlink">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="cuttingblock">
+    <material>Gazebo/Purple</material>
+  </gazebo>
+
+  <gazebo reference="facingblock">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <gazebo reference="cuttingblocksupport">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+
+
+
+
+  <!-- gazebo self-collide -->
+  <gazebo reference="base_link">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="flywheel">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="shaftlink">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="cuttingblock">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="facingblock">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+  <gazebo reference="cuttingblocksupport">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+
+
+
+
+  <!-- gazebo plugin descriptions -->
+
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+      <parameters>$(find microtome)/config/controller_configuration.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+
+  <!-- ros2 control plugins -->
+  <ros2_control name="GazeboSystem" type="system">
+    
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    
+    <joint name="flywheel_joint">
+      <command_interface name="position">
+        <param name="min">0.0</param>
+        <param name="max">0.2</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">0.2</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    
+    <joint name="flywheel_shaftlink_joint">
+      <command_interface name="position">
+        <param name="min">0</param>
+        <param name="max">0.2</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">0.2</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="shaftlink_cuttingblock_joint">
+      <command_interface name="position">
+        <param name="min">0</param>
+        <param name="max">0.2</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">0.2</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="cuttingblock_facingblock_joint">
+      <command_interface name="position">
+        <param name="min">0</param>
+        <param name="max">1</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">1</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+
+    <joint name="cuttingblobk_cuttingblocksupport_joint">
+      <command_interface name="position">
+        <param name="min">0</param>
+        <param name="max">0.2</param>
+      </command_interface>
+
+      <command_interface name="velocity">
+        <param name="min">0.0</param>
+        <param name="max">0.2</param>
+      </command_interface>
+
+      <command_interface name="effort">
+        <param name="min">0.0</param>
+        <param name="max">10000.0</param>
+      </command_interface>
+
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    
+  </ros2_control>
+
+</robot>

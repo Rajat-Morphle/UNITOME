@@ -1,0 +1,42 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 50  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    position_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+
+position_trajectory_controller: #Declared here but not initialised in the launch file yet. only forward position controller is initialised
+  ros__parameters:
+    joints:
+        - Xjoint
+        - Yjoint
+      # - BaseLink_CuttingBlock
+      # - CuttingBlock_Facingblock
+      # - CuttingBlock_Shaft
+      # - Shaft_Flywheel
+      # - Flywheel_FlywheelBlock
+
+    command_interfaces:
+      - position
+      - velocity
+      # - effort
+
+    state_interfaces:
+      - position
+      - velocity
+      # - effort
+
+    state_publish_rate: 50.0 # Defaults to 50
+    action_monitor_rate: 20.0 # Defaults to 20
+
+    allow_partial_joints_goal: true # Defaults to false
+    open_loop_control: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.02 # Defaults to 0.01
+      goal_time: 0.0 # Defaults to 0.0 (start immediately)
